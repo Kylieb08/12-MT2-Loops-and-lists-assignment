@@ -8,6 +8,13 @@ namespace _12_MT2_Loops_and_lists_assignment
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        Texture2D rectangleTexture, circleTexture;
+        Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
+        Rectangle parkingGarageHeightLimiterRect;
+        SpriteFont titleFont;
+        int roadLineX = 10, pillarX = 300;
+
+        MouseState mouseState, prevMouseState;
 
         public Game1()
         {
@@ -19,6 +26,18 @@ namespace _12_MT2_Loops_and_lists_assignment
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 500;
+            _graphics.ApplyChanges();
+            this.Window.Title = "Topic 2";
+
+            signRect = new Rectangle(28, 35, 192, 80);
+            circleRect = new Rectangle(28, 35, 192, 80);
+            signpostRect = new Rectangle(94, 115, 60, 430);
+            roadRect = new Rectangle(0, 350, 800, 150);
+            buildingRect = new Rectangle(300, 130, 500, 350);
+            insideBuildingRect = new Rectangle(300, 275, 500, 150);
+            parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
 
             base.Initialize();
         }
@@ -28,6 +47,9 @@ namespace _12_MT2_Loops_and_lists_assignment
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
+            circleTexture = Content.Load<Texture2D>("Images/circle");
+            titleFont = Content.Load<SpriteFont>("Font/titleFont");
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,6 +58,10 @@ namespace _12_MT2_Loops_and_lists_assignment
                 Exit();
 
             // TODO: Add your update logic here
+            prevMouseState = mouseState;
+            mouseState = Mouse.GetState();
+
+            this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
 
             base.Update(gameTime);
         }
@@ -45,6 +71,40 @@ namespace _12_MT2_Loops_and_lists_assignment
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            //Sign
+            _spriteBatch.Draw(rectangleTexture, signRect, Color.Blue);
+            //Circle part of sign
+            _spriteBatch.Draw(circleTexture, circleRect, Color.Yellow);
+            //Sign post
+            _spriteBatch.Draw(rectangleTexture, signpostRect, Color.DarkGray);
+            //Building
+            _spriteBatch.Draw(rectangleTexture, buildingRect, Color.Blue);
+            _spriteBatch.Draw(rectangleTexture, insideBuildingRect, Color.Black);
+            //Road
+            _spriteBatch.Draw(rectangleTexture, roadRect, Color.DimGray);
+
+            //Road lines
+            for (int i = 0; i < 20; i++)
+            {
+                _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 50 + roadLineX, 425, 40, 10), Color.Yellow);
+            }
+
+            //Parking garage height limiter
+            _spriteBatch.Draw(rectangleTexture, parkingGarageHeightLimiterRect, Color.Red);
+
+            //Parking garage pillars
+            for (int i = 0; i < 7; i++)
+            {
+                _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 100 + pillarX, 275, 50, 75), Color.Gray);
+            }
+
+            //Text
+            _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(50, 47), Color.Blue);
+            _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
