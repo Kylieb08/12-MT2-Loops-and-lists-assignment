@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace _12_MT2_Loops_and_lists_assignment
 {
@@ -8,10 +9,16 @@ namespace _12_MT2_Loops_and_lists_assignment
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
         Texture2D rectangleTexture, circleTexture;
+        List<Texture2D> carTextures = new List<Texture2D>();
+        List<Texture2D> drawCarTextures = new List<Texture2D>();
+
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
         Rectangle parkingGarageHeightLimiterRect;
+
         SpriteFont titleFont;
+
         int roadLineX = 10, pillarX = 300;
 
         MouseState mouseState, prevMouseState;
@@ -50,6 +57,9 @@ namespace _12_MT2_Loops_and_lists_assignment
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             circleTexture = Content.Load<Texture2D>("Images/circle");
             titleFont = Content.Load<SpriteFont>("Font/titleFont");
+
+            for (int i = 1; i <= 4; i++)
+                carTextures.Add(Content.Load<Texture2D>("Images/car " + i));
         }
 
         protected override void Update(GameTime gameTime)
