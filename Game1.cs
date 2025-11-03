@@ -16,6 +16,7 @@ namespace _12_MT2_Loops_and_lists_assignment
 
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
         Rectangle parkingGarageHeightLimiterRect;
+        List<Rectangle> carRects = new List<Rectangle>();
 
         SpriteFont titleFont;
 
