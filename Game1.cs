@@ -46,7 +46,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             buildingRect = new Rectangle(300, 130, 500, 350);
             insideBuildingRect = new Rectangle(300, 275, 500, 150);
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
-            carRect = new Rectangle(9, 354, 125, 75);
+            carRect = new Rectangle(640, 305, 170, 145); //y coords: 305-450
 
             base.Initialize();
         }
@@ -117,9 +117,8 @@ namespace _12_MT2_Loops_and_lists_assignment
             _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
 
             //Cars
-
-            //Resize car images and re-add them through content
-            _spriteBatch.Draw(carTextures[3], carRect, Color.White);
+            _spriteBatch.Draw(carTextures[3], carRect, null, Color.White, 0f, new Vector2(),
+                SpriteEffects.FlipHorizontally, 1f);
 
             _spriteBatch.End();
 
