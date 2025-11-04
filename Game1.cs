@@ -15,7 +15,7 @@ namespace _12_MT2_Loops_and_lists_assignment
         List<Texture2D> drawCarTextures = new List<Texture2D>();
 
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
-        Rectangle parkingGarageHeightLimiterRect;
+        Rectangle parkingGarageHeightLimiterRect, carRect;
         List<Rectangle> carRects = new List<Rectangle>();
 
         SpriteFont titleFont;
@@ -46,6 +46,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             buildingRect = new Rectangle(300, 130, 500, 350);
             insideBuildingRect = new Rectangle(300, 275, 500, 150);
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
+            carRect = new Rectangle(9, 354, 125, 75);
 
             base.Initialize();
         }
@@ -114,6 +115,11 @@ namespace _12_MT2_Loops_and_lists_assignment
             //Text
             _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(50, 47), Color.Blue);
             _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
+
+            //Cars
+
+            //Resize car images and re-add them through content
+            _spriteBatch.Draw(carTextures[3], carRect, Color.White);
 
             _spriteBatch.End();
 
