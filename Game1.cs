@@ -177,3 +177,7 @@ namespace _12_MT2_Loops_and_lists_assignment
         }
     }
 }
+
+
+//end condition will be when all cars are removed
+//cars will be removed when they turn around and leaves
