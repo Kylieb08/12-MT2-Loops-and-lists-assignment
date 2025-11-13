@@ -12,15 +12,13 @@ namespace _12_MT2_Loops_and_lists_assignment
 
         Texture2D rectangleTexture, circleTexture, carTexture;
         List<Texture2D> carTextures = new List<Texture2D>();
-        List<Texture2D> drawCarTextures = new List<Texture2D>();
 
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
         Rectangle parkingGarageHeightLimiterRect, carRect, window;
-        List<Rectangle> carRects = new List<Rectangle>();
 
         SpriteFont titleFont;
 
-        int roadLineX = 10, pillarX = 300;
+        int roadLineX = 10, pillarX = 300, index = 0;
 
         MouseState mouseState, prevMouseState;
 
@@ -51,7 +49,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             insideBuildingRect = new Rectangle(300, 275, 500, 150);
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
 
-            carRect = new Rectangle(640, 305, 170, 145); //y coords: 305-450
+            carRect = new Rectangle(0, 305, 170, 145); //y coords: 305-450
             carSpeed = new Vector2(4, 0);
 
             base.Initialize();
@@ -66,7 +64,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             circleTexture = Content.Load<Texture2D>("Images/circle");
             titleFont = Content.Load<SpriteFont>("Font/titleFont");
 
-            carTexture = Content.Load<Texture2D>("Images/car1");
+            carTexture = Content.Load<Texture2D>("Images/car 1");
 
             for (int i = 1; i <= 4; i++)
                 carTextures.Add(Content.Load<Texture2D>("Images/car " + i));
@@ -88,12 +86,9 @@ namespace _12_MT2_Loops_and_lists_assignment
             if (carRect.X > window.Width)
             {
                 carRect.X = window.Left - carRect.Width;
-                //for (int i = 0; i < carTextures.Count; i++)
-                //{
-                //    carTexture = carTextures[i];
-                //    if (i > 3)
-                //        i = 0;
-                //}
+                index += 1;
+                if (index >= carTextures.Count)
+                    index = 0;
             }
                 
 
@@ -139,7 +134,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
 
             //Cars
-            _spriteBatch.Draw(carTexture, carRect, null, Color.White, 0f, new Vector2(),
+            _spriteBatch.Draw(carTextures[index], carRect, null, Color.White, 0f, new Vector2(),
                 SpriteEffects.FlipHorizontally, 1f);
 
             _spriteBatch.End();
