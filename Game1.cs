@@ -1,12 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace _12_MT2_Loops_and_lists_assignment
 {
     public class Game1 : Game
     {
+        Random generator = new Random();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -86,9 +89,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             if (carRect.X > window.Width)
             {
                 carRect.X = window.Left - carRect.Width;
-                index += 1;
-                if (index >= carTextures.Count)
-                    index = 0;
+                index = generator.Next(0, carTextures.Count);
             }
                 
 
