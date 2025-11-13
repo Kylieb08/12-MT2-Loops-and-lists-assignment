@@ -10,12 +10,12 @@ namespace _12_MT2_Loops_and_lists_assignment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D rectangleTexture, circleTexture;
+        Texture2D rectangleTexture, circleTexture, carTexture;
         List<Texture2D> carTextures = new List<Texture2D>();
         List<Texture2D> drawCarTextures = new List<Texture2D>();
 
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
-        Rectangle parkingGarageHeightLimiterRect, carRect;
+        Rectangle parkingGarageHeightLimiterRect, carRect, window;
         List<Rectangle> carRects = new List<Rectangle>();
 
         SpriteFont titleFont;
@@ -23,6 +23,8 @@ namespace _12_MT2_Loops_and_lists_assignment
         int roadLineX = 10, pillarX = 300;
 
         MouseState mouseState, prevMouseState;
+
+        Vector2 carSpeed;
 
         public Game1()
         {
@@ -34,19 +36,23 @@ namespace _12_MT2_Loops_and_lists_assignment
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 500;
+            window = new Rectangle(0, 0, 800, 500);
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
             this.Window.Title = "Topic 2";
 
             signRect = new Rectangle(28, 35, 192, 80);
             circleRect = new Rectangle(28, 35, 192, 80);
             signpostRect = new Rectangle(94, 115, 60, 430);
+
             roadRect = new Rectangle(0, 350, 800, 150);
             buildingRect = new Rectangle(300, 130, 500, 350);
             insideBuildingRect = new Rectangle(300, 275, 500, 150);
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
+
             carRect = new Rectangle(640, 305, 170, 145); //y coords: 305-450
+            carSpeed = new Vector2(4, 0);
 
             base.Initialize();
         }
@@ -60,8 +66,11 @@ namespace _12_MT2_Loops_and_lists_assignment
             circleTexture = Content.Load<Texture2D>("Images/circle");
             titleFont = Content.Load<SpriteFont>("Font/titleFont");
 
+            carTexture = Content.Load<Texture2D>("Images/car1");
+
             for (int i = 1; i <= 4; i++)
                 carTextures.Add(Content.Load<Texture2D>("Images/car " + i));
+        
         }
 
         protected override void Update(GameTime gameTime)
@@ -74,6 +83,19 @@ namespace _12_MT2_Loops_and_lists_assignment
             mouseState = Mouse.GetState();
 
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
+            carRect.X += (int)carSpeed.X;
+
+            if (carRect.X > window.Width)
+            {
+                carRect.X = window.Left - carRect.Width;
+                //for (int i = 0; i < carTextures.Count; i++)
+                //{
+                //    carTexture = carTextures[i];
+                //    if (i > 3)
+                //        i = 0;
+                //}
+            }
+                
 
             base.Update(gameTime);
         }
@@ -117,7 +139,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
 
             //Cars
-            _spriteBatch.Draw(carTextures[3], carRect, null, Color.White, 0f, new Vector2(),
+            _spriteBatch.Draw(carTexture, carRect, null, Color.White, 0f, new Vector2(),
                 SpriteEffects.FlipHorizontally, 1f);
 
             _spriteBatch.End();
