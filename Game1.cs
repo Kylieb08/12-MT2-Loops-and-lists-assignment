@@ -115,7 +115,10 @@ namespace _12_MT2_Loops_and_lists_assignment
             }
 
             if (carRect.Right < window.Left)
+            {
                 carClicked = false;
+                index = generator.Next(0, carTextures.Count);
+            }
 
             base.Update(gameTime);
         }
