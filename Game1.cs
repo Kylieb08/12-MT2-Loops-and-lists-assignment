@@ -27,6 +27,10 @@ namespace _12_MT2_Loops_and_lists_assignment
 
         Vector2 carSpeed;
 
+        SpriteEffects flipCar;
+
+        bool carClicked = false;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -91,7 +95,27 @@ namespace _12_MT2_Loops_and_lists_assignment
                 carRect.X = window.Left - carRect.Width;
                 index = generator.Next(0, carTextures.Count);
             }
-                
+
+            flipCar = SpriteEffects.FlipHorizontally;
+            if (NewClick() && carRect.Contains(mouseState.Position))
+                carClicked = true;
+
+            if (carClicked)
+            {
+                flipCar = SpriteEffects.None;
+                carRect.Y = 390;
+                carSpeed.X = -4;
+            }
+
+            if (!carClicked)
+            {
+                flipCar = SpriteEffects.FlipHorizontally;
+                carRect.Y = 305;
+                carSpeed.X = 4;
+            }
+
+            if (carRect.Right < window.Left)
+                carClicked = false;
 
             base.Update(gameTime);
         }
@@ -136,11 +160,17 @@ namespace _12_MT2_Loops_and_lists_assignment
 
             //Cars
             _spriteBatch.Draw(carTextures[index], carRect, null, Color.White, 0f, new Vector2(),
-                SpriteEffects.FlipHorizontally, 1f);
+                flipCar, 1f);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected bool NewClick()
+        {
+            return mouseState.LeftButton == ButtonState.Pressed
+                && prevMouseState.LeftButton == ButtonState.Released;
         }
     }
 }
