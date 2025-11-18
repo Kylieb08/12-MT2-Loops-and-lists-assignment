@@ -93,7 +93,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             if (carRect.X > window.Width)
             {
                 carRect.X = window.Left - carRect.Width;
-                index = generator.Next(0, carTextures.Count);
+                index = generator.Next(carTextures.Count);
             }
 
             flipCar = SpriteEffects.FlipHorizontally;
@@ -114,10 +114,14 @@ namespace _12_MT2_Loops_and_lists_assignment
                 carSpeed.X = 7;
             }
 
-            if (carRect.Right < window.Left)
+            if (carRect.Right < window.Left && carSpeed.X < 0)
             {
                 carClicked = false;
                 carTextures.RemoveAt(index);
+                index = generator.Next(carTextures.Count);
+                carRect.X = window.Left - carRect.Width;
+                if (carTextures.Count == 0)
+                    Exit();
             }
 
             base.Update(gameTime);
