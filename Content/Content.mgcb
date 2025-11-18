@@ -16,6 +16,13 @@
 #begin Font/futura.ttf
 /copy:Font/futura.ttf
 
+#begin Font/introFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/introFont.spritefont
+
 #begin Font/titleFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

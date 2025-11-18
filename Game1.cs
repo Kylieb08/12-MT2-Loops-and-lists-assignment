@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 namespace _12_MT2_Loops_and_lists_assignment
 {
+    enum Screen
+    {
+        Intro,
+        Ikea
+    }
     public class Game1 : Game
     {
         Random generator = new Random();
@@ -19,7 +24,7 @@ namespace _12_MT2_Loops_and_lists_assignment
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
         Rectangle parkingGarageHeightLimiterRect, carRect, window;
 
-        SpriteFont titleFont;
+        SpriteFont titleFont, introFont;
 
         int roadLineX = 10, pillarX = 300, index = 0;
 
@@ -30,6 +35,8 @@ namespace _12_MT2_Loops_and_lists_assignment
         SpriteEffects flipCar;
 
         bool carClicked = false;
+
+        Screen screen;
 
         public Game1()
         {
@@ -42,6 +49,7 @@ namespace _12_MT2_Loops_and_lists_assignment
         {
             // TODO: Add your initialization logic here
             window = new Rectangle(0, 0, 800, 500);
+            screen = Screen.Intro;
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
@@ -70,6 +78,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             circleTexture = Content.Load<Texture2D>("Images/circle");
             titleFont = Content.Load<SpriteFont>("Font/titleFont");
+            introFont = Content.Load<SpriteFont>("Font/introFont");
 
             carTexture = Content.Load<Texture2D>("Images/car 1");
 
@@ -90,38 +99,47 @@ namespace _12_MT2_Loops_and_lists_assignment
             this.Window.Title = "x = " + mouseState.X + ", y = " + mouseState.Y;
             carRect.X += (int)carSpeed.X;
 
-            if (carRect.X > window.Width)
+            if (screen == Screen.Intro)
             {
-                carRect.X = window.Left - carRect.Width;
-                index = generator.Next(carTextures.Count);
+                if (mouseState.RightButton == ButtonState.Pressed)
+                    screen = Screen.Ikea;
             }
 
-            flipCar = SpriteEffects.FlipHorizontally;
-            if (NewClick() && carRect.Contains(mouseState.Position))
-                carClicked = true;
-
-            if (carClicked)
+            else if (screen == Screen.Ikea)
             {
-                flipCar = SpriteEffects.None;
-                carRect.Y = 390;
-                carSpeed.X = -7;
-            }
+                if (carRect.X > window.Width)
+                {
+                    carRect.X = window.Left - carRect.Width;
+                    index = generator.Next(carTextures.Count);
+                }
 
-            if (!carClicked)
-            {
                 flipCar = SpriteEffects.FlipHorizontally;
-                carRect.Y = 305;
-                carSpeed.X = 7;
-            }
+                if (NewClick() && carRect.Contains(mouseState.Position))
+                    carClicked = true;
 
-            if (carRect.Right < window.Left && carSpeed.X < 0)
-            {
-                carClicked = false;
-                carTextures.RemoveAt(index);
-                index = generator.Next(carTextures.Count);
-                carRect.X = window.Left - carRect.Width;
-                if (carTextures.Count == 0)
-                    Exit();
+                if (carClicked)
+                {
+                    flipCar = SpriteEffects.None;
+                    carRect.Y = 390;
+                    carSpeed.X = -7;
+                }
+
+                if (!carClicked)
+                {
+                    flipCar = SpriteEffects.FlipHorizontally;
+                    carRect.Y = 305;
+                    carSpeed.X = 7;
+                }
+
+                if (carRect.Right < window.Left && carSpeed.X < 0)
+                {
+                    carClicked = false;
+                    carTextures.RemoveAt(index);
+                    index = generator.Next(carTextures.Count);
+                    carRect.X = window.Left - carRect.Width;
+                    if (carTextures.Count == 0)
+                        Exit();
+                }
             }
 
             base.Update(gameTime);
@@ -134,42 +152,54 @@ namespace _12_MT2_Loops_and_lists_assignment
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            //Sign
-            _spriteBatch.Draw(rectangleTexture, signRect, Color.Blue);
-            //Circle part of sign
-            _spriteBatch.Draw(circleTexture, circleRect, Color.Yellow);
-            //Sign post
-            _spriteBatch.Draw(rectangleTexture, signpostRect, Color.DarkGray);
-            //Building
-            _spriteBatch.Draw(rectangleTexture, buildingRect, Color.Blue);
-            _spriteBatch.Draw(rectangleTexture, insideBuildingRect, Color.Black);
-            //Road
-            _spriteBatch.Draw(rectangleTexture, roadRect, Color.DimGray);
-
-            //Road lines
-            for (int i = 0; i < 20; i++)
+            if (screen == Screen.Intro)
             {
-                _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 50 + roadLineX, 425, 40, 10), Color.Yellow);
+                _spriteBatch.DrawString(introFont, "Welcome to IKEA", new Vector2(10, 10), Color.White);
+                _spriteBatch.DrawString(introFont, "IKEA is closed", new Vector2(10, 60), Color.White);
+                _spriteBatch.DrawString(introFont, "Your job is to stop cars from coming to IKEA", new Vector2(10, 110), Color.White);
+                _spriteBatch.DrawString(introFont, "Left click on them to turn them around", new Vector2(10, 160), Color.White);
+                _spriteBatch.DrawString(introFont, "Right click to continue to your job", new Vector2(10, 210), Color.White);
             }
 
-            //Parking garage height limiter
-            _spriteBatch.Draw(rectangleTexture, parkingGarageHeightLimiterRect, Color.Red);
-
-            //Parking garage pillars
-            for (int i = 0; i < 7; i++)
+            else if (screen == Screen.Ikea)
             {
-                _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 100 + pillarX, 275, 50, 75), Color.Gray);
+                //Sign
+                _spriteBatch.Draw(rectangleTexture, signRect, Color.Blue);
+                //Circle part of sign
+                _spriteBatch.Draw(circleTexture, circleRect, Color.Yellow);
+                //Sign post
+                _spriteBatch.Draw(rectangleTexture, signpostRect, Color.DarkGray);
+                //Building
+                _spriteBatch.Draw(rectangleTexture, buildingRect, Color.Blue);
+                _spriteBatch.Draw(rectangleTexture, insideBuildingRect, Color.Black);
+                //Road
+                _spriteBatch.Draw(rectangleTexture, roadRect, Color.DimGray);
+
+                //Road lines
+                for (int i = 0; i < 20; i++)
+                {
+                    _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 50 + roadLineX, 425, 40, 10), Color.Yellow);
+                }
+
+                //Parking garage height limiter
+                _spriteBatch.Draw(rectangleTexture, parkingGarageHeightLimiterRect, Color.Red);
+
+                //Parking garage pillars
+                for (int i = 0; i < 7; i++)
+                {
+                    _spriteBatch.Draw(rectangleTexture, new Rectangle(i * 100 + pillarX, 275, 50, 75), Color.Gray);
+                }
+
+                //Text
+                _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(50, 47), Color.Blue);
+                _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
+
+                //Cars
+                _spriteBatch.Draw(carTextures[index], carRect, null, Color.White, 0f, new Vector2(),
+                    flipCar, 1f);
             }
 
-            //Text
-            _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(50, 47), Color.Blue);
-            _spriteBatch.DrawString(titleFont, "IKEA", new Vector2(314, 142), Color.Yellow);
-
-            //Cars
-            _spriteBatch.Draw(carTextures[index], carRect, null, Color.White, 0f, new Vector2(),
-                flipCar, 1f);
-
-            _spriteBatch.End();
+                _spriteBatch.End();
 
             base.Draw(gameTime);
         }
