@@ -64,7 +64,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             insideBuildingRect = new Rectangle(300, 275, 500, 150);
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
 
-            carRect = new Rectangle(0, 305, 170, 145); //y coords: 305-450
+            carRect = new Rectangle(0, 305, 170, 145);
             carSpeed = new Vector2(7, 0);
 
             base.Initialize();
