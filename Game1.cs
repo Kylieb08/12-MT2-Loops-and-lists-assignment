@@ -57,7 +57,7 @@ namespace _12_MT2_Loops_and_lists_assignment
             parkingGarageHeightLimiterRect = new Rectangle(300, 285, 500, 5);
 
             carRect = new Rectangle(0, 305, 170, 145); //y coords: 305-450
-            carSpeed = new Vector2(4, 0);
+            carSpeed = new Vector2(7, 0);
 
             base.Initialize();
         }
@@ -104,20 +104,20 @@ namespace _12_MT2_Loops_and_lists_assignment
             {
                 flipCar = SpriteEffects.None;
                 carRect.Y = 390;
-                carSpeed.X = -4;
+                carSpeed.X = -7;
             }
 
             if (!carClicked)
             {
                 flipCar = SpriteEffects.FlipHorizontally;
                 carRect.Y = 305;
-                carSpeed.X = 4;
+                carSpeed.X = 7;
             }
 
             if (carRect.Right < window.Left)
             {
                 carClicked = false;
-                index = generator.Next(0, carTextures.Count);
+                carTextures.RemoveAt(index);
             }
 
             base.Update(gameTime);
@@ -177,7 +177,3 @@ namespace _12_MT2_Loops_and_lists_assignment
         }
     }
 }
-
-
-//end condition will be when all cars are removed
-//cars will be removed when they turn around and leaves
