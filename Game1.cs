@@ -9,7 +9,8 @@ namespace _12_MT2_Loops_and_lists_assignment
     enum Screen
     {
         Intro,
-        Ikea
+        Ikea,
+        End
     }
     public class Game1 : Game
     {
@@ -138,7 +139,7 @@ namespace _12_MT2_Loops_and_lists_assignment
                     index = generator.Next(carTextures.Count);
                     carRect.X = window.Left - carRect.Width;
                     if (carTextures.Count == 0)
-                        Exit();
+                        screen = Screen.End;
                 }
             }
 
@@ -197,6 +198,11 @@ namespace _12_MT2_Loops_and_lists_assignment
                 //Cars
                 _spriteBatch.Draw(carTextures[index], carRect, null, Color.White, 0f, new Vector2(),
                     flipCar, 1f);
+            }
+
+            else if (screen == Screen.End)
+            {
+                _spriteBatch.DrawString(introFont, "Congratulations! You have removed all the cars", new Vector2(10, 10), Color.White);
             }
 
                 _spriteBatch.End();
