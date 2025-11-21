@@ -19,7 +19,7 @@ namespace _12_MT2_Loops_and_lists_assignment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D rectangleTexture, circleTexture, carTexture;
+        Texture2D rectangleTexture, circleTexture, carTexture, nightTexture;
         List<Texture2D> carTextures = new List<Texture2D>();
 
         Rectangle signRect, circleRect, signpostRect, roadRect, buildingRect, insideBuildingRect;
@@ -36,6 +36,8 @@ namespace _12_MT2_Loops_and_lists_assignment
         SpriteEffects flipCar;
 
         bool carClicked = false;
+
+        float lightLevel;
 
         Screen screen;
 
@@ -68,6 +70,8 @@ namespace _12_MT2_Loops_and_lists_assignment
             carRect = new Rectangle(0, 305, 170, 145);
             carSpeed = new Vector2(7, 0);
 
+            lightLevel = 1f;
+
             base.Initialize();
         }
 
@@ -80,6 +84,8 @@ namespace _12_MT2_Loops_and_lists_assignment
             circleTexture = Content.Load<Texture2D>("Images/circle");
             titleFont = Content.Load<SpriteFont>("Font/titleFont");
             introFont = Content.Load<SpriteFont>("Font/introFont");
+
+            nightTexture = Content.Load<Texture2D>("Images/night_sky");
 
             carTexture = Content.Load<Texture2D>("Images/car 1");
 
@@ -141,9 +147,26 @@ namespace _12_MT2_Loops_and_lists_assignment
                     if (carTextures.Count == 0)
                         screen = Screen.End;
                 }
-            }
 
-            base.Update(gameTime);
+                if (mouseState.ScrollWheelValue > prevMouseState.ScrollWheelValue)
+                {
+                    lightLevel -= 0.1f;
+                    if (lightLevel < 0f)
+                        lightLevel = 0f;
+                }
+
+                if (mouseState.ScrollWheelValue < prevMouseState.ScrollWheelValue)
+                {
+                    lightLevel += 0.1f;
+                    if (lightLevel > 1f)
+                    {
+                        lightLevel = 1f;
+                    }
+                        
+                }
+
+                base.Update(gameTime);
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -159,11 +182,15 @@ namespace _12_MT2_Loops_and_lists_assignment
                 _spriteBatch.DrawString(introFont, "IKEA is closed", new Vector2(10, 60), Color.White);
                 _spriteBatch.DrawString(introFont, "Your job is to stop cars from coming to IKEA", new Vector2(10, 110), Color.White);
                 _spriteBatch.DrawString(introFont, "Left click on them to turn them around", new Vector2(10, 160), Color.White);
-                _spriteBatch.DrawString(introFont, "Right click to continue to your job", new Vector2(10, 210), Color.White);
+                _spriteBatch.DrawString(introFont, "You can use the scroll wheel to change the time of day", new Vector2(10, 210), Color.White);
+                _spriteBatch.DrawString(introFont, "If it becomes fully day time, a car will be added", new Vector2(10, 260), Color.White);
+                _spriteBatch.DrawString(introFont, "Right click to continue to your job", new Vector2(10, 310), Color.White);
             }
 
             else if (screen == Screen.Ikea)
             {
+                //Sky
+                _spriteBatch.Draw(nightTexture, window, Color.White * lightLevel);
                 //Sign
                 _spriteBatch.Draw(rectangleTexture, signRect, Color.Blue);
                 //Circle part of sign
