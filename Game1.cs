@@ -159,10 +159,7 @@ namespace _12_MT2_Loops_and_lists_assignment
                 {
                     lightLevel += 0.1f;
                     if (lightLevel > 1f)
-                    {
                         lightLevel = 1f;
-                    }
-                        
                 }
 
                 base.Update(gameTime);
@@ -184,7 +181,7 @@ namespace _12_MT2_Loops_and_lists_assignment
                 _spriteBatch.DrawString(introFont, "Left click on them to turn them around", new Vector2(10, 160), Color.White);
                 _spriteBatch.DrawString(introFont, "You can use the scroll wheel to change the time of day", new Vector2(10, 210), Color.White);
                 _spriteBatch.DrawString(introFont, "If it becomes fully day time, a car will be added", new Vector2(10, 260), Color.White);
-                _spriteBatch.DrawString(introFont, "You can do this up to four times", new Vector2(10, 310), Color.White);
+                _spriteBatch.DrawString(introFont, "You can do this up to four t", new Vector2(10, 310), Color.White);
                 _spriteBatch.DrawString(introFont, "Right click to continue to your job", new Vector2(10, 360), Color.White);
             }
 
